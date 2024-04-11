@@ -17,7 +17,7 @@ defmodule CarafeWeb.PotionController do
 
   def show(conn, %{"id" => id}) do
     potion = Potions.get_potion(id)
-    changeset = Review.changeset(%Review{})
+    changeset = Review.changeset(%Review{}, %{})
     reviews = Potions.get_reviews(id)
     render(conn, "show.html", potion: potion, reviews: reviews, changeset: changeset)
   end
@@ -28,10 +28,9 @@ defmodule CarafeWeb.PotionController do
 
     params =
       review_params
-      |> Map.put("user_id", user.id)
       |> Map.put("potion_id", potion_id)
 
-    case Potions.create_review(params) do
+    case Potions.create_review(user.id, params) do
       {:ok, _review} ->
         conn
         |> put_flash(:info, "Review created")

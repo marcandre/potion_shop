@@ -57,9 +57,9 @@ defmodule Carafe.Potions do
     |> Repo.insert()
   end
 
-  def create_review(params) do
+  def create_review(user_id, params) do
     %Review{}
-    |> Review.changeset(params)
+    |> Review.changeset(params, user_id: user_id)
     |> Repo.insert()
   end
 end
